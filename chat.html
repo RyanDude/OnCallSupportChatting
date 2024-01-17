@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.io Rooms</title>
+  <style>
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #messages li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <form id="form" action="">
+    <input id="room" placeholder="Room" />
+    <input id="m" autocomplete="off" /><button>Send</button>
+  </form>
+  <ul id="messages"></ul>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    $(function () {
+      const socket = io();
+
+      $('form').submit(function(){
+        const room = $('#room').val();
+        const msg = $('#m').val();
+        socket.emit('join room', room);
+        socket.emit('message', { room, msg });
+        $('#m').val('');
+        return false;
+      });
+
+      socket.on('message', function(msg){
+        $('#messages').append($('<li>').text(msg));
+      });
+    });
+  </script>
+</body>
+</html>

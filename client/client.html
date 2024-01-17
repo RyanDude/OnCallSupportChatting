@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Client</title>
+    <link rel="stylesheet" type="text/css" href="client-render.css">
+  </head>
+  <body>
+    <h1>Client Page</h1>
+    <h4>Broadacsting Message from Admin</h4>
+    <div id="messages" class="bubble"></div>
+    _________________________________________________
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      socket.on('connect', () => {
+        console.log('Connected to server');
+      });
+      socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+      });
+      const messages = document.getElementById('messages');
+      socket.on('braodcast', (message) => {
+        const messageElement = document.createElement('div');
+        messageElement.innerText = message;
+        messages.appendChild(messageElement);
+      });
+      // one to one msg
+    </script>
+  </body>
+</html>
