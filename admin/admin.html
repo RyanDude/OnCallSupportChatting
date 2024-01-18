@@ -44,7 +44,16 @@
     <div id="messages"></div>
     <h4>Broadacsting to Everyone</h4>
     <input id="message-input" type="text" placeholder="Type your message here">
-    <button id="send-button">Send</button>
+    <button id="send-button">braodcast</button>
+    
+    <!-- join room -->
+    <input id="room" type="text" placeholder="room">
+    <button id="join-room">join room</button>
+    <!-- send msg to specific channel -->
+    <input id="msg" type="text" placeholder="msg to a specific room">
+    <button id="send-msg">send msg</button>
+    <ul id="received-messages"></ul>
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
@@ -68,9 +77,27 @@
         messages.appendChild(messageElement);
       });
 
+      
       // one to one msg
+      let join_room = document.getElementById('join-room');
+      let send_msg = document.getElementById('send-msg');
+      // join room
+      join_room.addEventListener('click', () => {
+        let room = document.getElementById('room').value;
+        socket.emit('join room', room);
+      });
+      // send msg to a specific room
+      send_msg.addEventListener('click', () => {
+        let room = document.getElementById('room').value;
+        let msg = document.getElementById('msg').value;
+        socket.emit('message', {room, msg});
+      });
+      // listner for one to one chatting
       socket.on('message', function(msg){
-        $('#messages').append($('<li>').text(msg));
+        console.log(msg);
+        const added = document.getElementById("received-messages");
+        let text = document.createTextNode(msg);
+        added.append(text);
       });
       
     </script>

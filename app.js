@@ -63,6 +63,7 @@ io.on('connection', (socket) => {
   });
   // one to one chatting channel
   socket.on('message', (data)=>{
+    console.log('received msg: '+data.msg);
     io.to(data.room).emit('message', data.msg);
   });
 });

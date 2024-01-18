@@ -37,7 +37,6 @@
         $('#m').val('');
         return false;
       });
-
       socket.on('message', function(msg){
         $('#messages').append($('<li>').text(msg));
       });
